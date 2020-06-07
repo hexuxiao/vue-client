@@ -9,7 +9,7 @@
 <script>
 import Header from "./components/Header";
 import Footer from './components/Footer'
-import {reqCategorys} from './api'
+import {reqCategorysList} from './api'
 export default {
   name: "App",
   components: {
@@ -17,8 +17,9 @@ export default {
     Footer
   },
   async mounted(){
-    let result = await reqCategorys()
-    console.log(result)
+    //测试接口数据
+    // let result = await reqCategorysList()
+    // console.log(result)
   }
 };
 </script>

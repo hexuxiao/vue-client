@@ -1,4 +1,4 @@
-import ajax from '@/api/ajax'
+import ajax from './ajax'
 //定义接口请求函数
 
 //登录接口
@@ -20,4 +20,4 @@ export function reqLogin(mobile, password) {
 // export function reqCategorys(){
 //     return ajax('/product/getBaseCategoryList')
 // }
-export const reqCategorys = () => ajax('/product/getBaseCategoryList')
+export const reqCategorysList = () => ajax('/product/getBaseCategoryList')
