@@ -58,8 +58,10 @@ export default {
       };
       if (keyword) {
         location.params = { keyword };
-        location.query = { content: keyword.toUpperCase() };
       }
+      //搜索跳转携带query参数
+      location.query = this.$route.query;
+
       this.$router.push(location);
     }
   }

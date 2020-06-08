@@ -112,9 +112,10 @@ export default {
     })
   },
   mounted() {
+    //通过store对象分发异步action 执行请求获取数据
     // this.$store.dispatch('getCategorysList')
     //映射获取
-    this.getCategorysList();
+    // this.getCategorysList();
   },
   methods: {
     ...mapActions(["getCategorysList"]),
@@ -187,6 +188,12 @@ export default {
         name: "search",
         query
       };
+      //三级分类跳转携带params参数
+      // const  keyword = this.$route.params.keyword
+      // if(keyword){
+      //   location.params = {keyword}
+      // }
+      location.params = this.$route.params
       this.$router.push(location);
       //切换分类列表后，隐藏一级分类列表
       this.hideCategory();

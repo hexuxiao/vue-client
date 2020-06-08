@@ -20,6 +20,8 @@ export default {
     //测试接口数据
     // let result = await reqCategorysList()
     // console.log(result)
+    //分发异步actions请求获取数据,路由切换是不会重新触发
+    this.$store.dispatch('getCategorysList');
   }
 };
 </script>
