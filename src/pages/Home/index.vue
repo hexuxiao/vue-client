@@ -16,11 +16,7 @@
     <Like></Like>
 
     <!--楼层-->
-    <Floor></Floor>
-
-    <!--楼层-->
-    <Floor></Floor>
-
+    <Floor v-for="floor in floors" :key="floor.id" :floor='floor'></Floor>
     <!--商标-->
     <Brand></Brand>
   </div>
@@ -33,9 +29,17 @@ import Rank from "./Rank";
 import Like from "./Like";
 import Floor from "./Floor";
 import Brand from "./Brand";
+import {mapState} from 'vuex'
 export default {
   name: "Home",
+  computed:{
+    ...mapState({
+      floors:state=>state.home.floors
+    })
+  },
   mounted() {
+    //分发给异步action请求获取轮播图数据
+    this.$store.dispatch('getBanners')
     //分发给异步action请求获取楼层数据
     this.$store.dispatch('getFloors')
   },

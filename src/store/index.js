@@ -1,7 +1,7 @@
+//收集所有的vuex模块，一起暴露
 import Vue from 'vue'
 import Vuex from 'vuex'
-import home from './modules/home'
-import user from './modules/user'
+import modules from './modules';
 
 //声明vuex插件
 Vue.use(Vuex)
@@ -16,8 +16,5 @@ export default new Vuex.Store({
     actions,
     getters,
     //指定vuex管理子模块
-    modules: {
-        home,
-        user
-    }
+    modules
 })
