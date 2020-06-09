@@ -155,6 +155,16 @@ export default {
       }
     };
   },
+  beforeMount() {
+    this.updateOptions();
+  },
+  watch: {
+    //监视组件发生变化时重新发送请求
+    $route() {
+      this.updateOptions();
+      this.$store.dispatch("getProdoctList", this.options);
+    }
+  },
   mounted() {
     this.getProdoctList();
   },
@@ -163,9 +173,28 @@ export default {
       prodoctList: state => state.search.prodoctList
     })
   },
+
   methods: {
     getProdoctList() {
       this.$store.dispatch("getProdoctList", this.options);
+    },
+    updateOptions() {
+      //根据query，params更新options
+      const {
+        categoryName,
+        category1Id,
+        category2Id,
+        category3Id
+      } = this.$route.query;
+      const { keyword } = this.$route.params;
+      this.options = {
+        ...this.options,
+        keyword,
+        categoryName,
+        category1Id,
+        category2Id,
+        category3Id
+      };
     }
   },
   components: {
