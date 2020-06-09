@@ -26,6 +26,8 @@ export const reqCategorysList = () => ajax('/product/getBaseCategoryList')
 //定义访问mock接口的函数
 export const reqBanners = () => mockAjax('/banners')
 export const reqFloors = () => mockAjax('/floors')
+export const reqTodayRecommend = ()=>mockAjax('/todayRecommend')
+
 
 //定义访问searchlist接口的函数
 export const reqProductList = (options)=>ajax.post('/list',options)

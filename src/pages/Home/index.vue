@@ -7,7 +7,7 @@
     <ListContainer></ListContainer>
 
     <!--今日推荐-->
-    <TodayRecommend></TodayRecommend>
+    <TodayRecommend :todayRecommend="todayRecommend"></TodayRecommend>
 
     <!-- 商品排行 -->
     <Rank></Rank>
@@ -16,7 +16,7 @@
     <Like></Like>
 
     <!--楼层-->
-    <Floor v-for="floor in floors" :key="floor.id" :floor='floor'></Floor>
+    <Floor v-for="floor in floors" :key="floor.id" :floor="floor"></Floor>
     <!--商标-->
     <Brand></Brand>
   </div>
@@ -29,19 +29,22 @@ import Rank from "./Rank";
 import Like from "./Like";
 import Floor from "./Floor";
 import Brand from "./Brand";
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "Home",
-  computed:{
+  computed: {
     ...mapState({
-      floors:state=>state.home.floors
+      floors: state => state.home.floors,
+      todayRecommend: state => state.home.todayRecommend
     })
   },
   mounted() {
     //分发给异步action请求获取轮播图数据
-    this.$store.dispatch('getBanners')
+    this.$store.dispatch("getBanners");
     //分发给异步action请求获取楼层数据
-    this.$store.dispatch('getFloors')
+    this.$store.dispatch("getFloors");
+    //分发给异步action请求获取今日推荐数据
+    this.$store.dispatch("getTodatRecommend");
   },
   components: {
     ListContainer,

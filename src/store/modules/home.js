@@ -3,13 +3,15 @@
 import {
     reqCategorysList,
     reqBanners,
-    reqFloors
+    reqFloors,
+    reqTodayRecommend
 } from '../../api'
 export default {
     state: {
         categorysList: [],
         banners: [],
-        floors: []
+        floors: [],
+        todayRecommend: []
     },
     mutations: {
         //接受保存分类列表的mutation
@@ -23,6 +25,10 @@ export default {
         //接受保存楼层列表的mutation
         RECEIVE_FLOORS(state, floors) {
             state.floors = floors
+        },
+        //接受保存今日推荐的mutation
+        RECEIVE_TODAT_RECOMMEND(state, todayRecommend) {
+            state.todayRecommend = todayRecommend
         }
     },
     actions: {
@@ -55,6 +61,16 @@ export default {
             if (result.code === 200) {
                 const floors = result.data
                 commit('RECEIVE_FLOORS', floors)
+            }
+        },
+        //发送请求获取今日推荐
+        async getTodatRecommend({
+            commit
+        }) {
+            const result = await reqTodayRecommend()
+            if (result.code === 200) {
+                const todayRecommend = result.data
+                commit('RECEIVE_TODAT_RECOMMEND', todayRecommend)
             }
         }
     },

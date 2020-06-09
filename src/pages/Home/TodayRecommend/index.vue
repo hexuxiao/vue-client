@@ -8,17 +8,8 @@
             <h3>今日推荐</h3>
           </div>
         </li>
-        <li class="banner">
-          <img src="./images/today01.png" />
-        </li>
-        <li class="banner">
-          <img src="./images/today02.png" />
-        </li>
-        <li class="banner">
-          <img src="./images/today03.png" />
-        </li>
-        <li class="banner">
-          <img src="./images/today04.png" />
+        <li class="banner" v-for="item in todayRecommend" :key="item.id">
+          <img :src="item.imgUrl" />
         </li>
       </ul>
     </div>
@@ -27,7 +18,10 @@
 
 <script>
 export default {
-  name: "TodayRecommend"
+  name: "TodayRecommend",
+  props: {
+    todayRecommend: Array
+  }
 };
 </script>
 
