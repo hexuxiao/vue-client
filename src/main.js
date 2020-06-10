@@ -20,7 +20,11 @@ new Vue({
   //配置路由器
   router,
   //注册store
-  store
+  store,
+  //全局事件总线对象
+  beforeCreate() {
+    Vue.prototype.$bus = this
+  },
 }).$mount('#app')
 /* eslint-disable no-unused-vars */
 var a = 3

@@ -48,6 +48,11 @@ export default {
       keyword: ""
     };
   },
+  mounted() {
+    this.$bus.$on("removeKeyword", () => {
+      this.keyword = "";
+    });
+  },
   methods: {
     search() {
       const { keyword } = this;
@@ -61,8 +66,13 @@ export default {
       }
       //搜索跳转携带query参数
       location.query = this.$route.query;
-
-      this.$router.push(location);
+      //直接返回home
+      // if(this.$route.name !== 'search'){
+      if (this.$route.path.indexOf("/search") !== 0) {
+        this.$router.push(location);
+      } else {
+        this.$router.replace(location);
+      }
     }
   }
 };

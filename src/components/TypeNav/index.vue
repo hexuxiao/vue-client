@@ -193,8 +193,13 @@ export default {
       // if(keyword){
       //   location.params = {keyword}
       // }
-      location.params = this.$route.params
-      this.$router.push(location);
+      location.params = this.$route.params;
+      // if(this.$route.name !== '/search'){
+      if (this.$route.path.indexOf("/search") !== 0) {
+        this.$router.push(location);
+      } else {
+        this.$router.replace(location);
+      }
       //切换分类列表后，隐藏一级分类列表
       this.hideCategory();
     }

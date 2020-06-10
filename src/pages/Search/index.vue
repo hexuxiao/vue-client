@@ -11,18 +11,13 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">
-              iphone
-              <i>×</i>
+            <li class="with-x" v-if="options.categoryName">
+              {{options.categoryName}}
+              <i @click="removeCategory">×</i>
             </li>
-            <li class="with-x">
-              华为
-              <i>×</i>
-            </li>
-            <li class="with-x">
-              OPPO
-              <i>×</i>
+            <li class="with-x" v-if="options.keyword">
+              {{options.keyword}}
+              <i @click="removeKeyword">×</i>
             </li>
           </ul>
         </div>
@@ -155,9 +150,6 @@ export default {
       }
     };
   },
-  beforeMount() {
-    this.updateOptions();
-  },
   watch: {
     //监视组件发生变化时重新发送请求
     $route() {
@@ -165,7 +157,8 @@ export default {
       this.$store.dispatch("getProdoctList", this.options);
     }
   },
-  mounted() {
+  created() {
+    this.updateOptions();
     this.getProdoctList();
   },
   computed: {
@@ -178,8 +171,8 @@ export default {
     getProdoctList() {
       this.$store.dispatch("getProdoctList", this.options);
     },
+    //根据query，params更新options
     updateOptions() {
-      //根据query，params更新options
       const {
         categoryName,
         category1Id,
@@ -195,6 +188,25 @@ export default {
         category2Id,
         category3Id
       };
+    },
+    //删除分类条件
+    removeCategory() {
+      this.options.categoryName = "";
+      this.options.category1Id = "";
+      this.options.category2Id = "";
+      this.options.category3Id = "";
+      // this.getProdoctList();
+      // this.$router.push({ name: "search", params: this.$route.params });
+      this.$router.replace({ name: "search", params: this.$route.params });
+    },
+    //删除关键字条件
+    removeKeyword() {
+      this.options.keyword = "";
+      // this.getProdoctList();
+      // this.$router.push({ name: "search", query: this.$route.query });
+      this.$router.replace({ name: "search", query: this.$route.query });
+      //清除关键字
+      this.$bus.$emit("removeKeyword");
     }
   },
   components: {
