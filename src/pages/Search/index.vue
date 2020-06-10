@@ -141,6 +141,7 @@
 </template>
 
 <script>
+import  Vue from 'vue'
 import { mapState } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
@@ -223,12 +224,19 @@ export default {
       if (this.options.trademark === trademark) return;
       //更新数据
       this.options.trademark = trademark;
+      //添加新属性 自动更新界面   
+      // Vue.set(this.options,'trademark',trademark)
+      // this.$set(this.options,'trademark',trademark)
+
       //请求数据
       this.getProdoctList();
     },
     //删除品牌条件
     removeTrademark() {
       this.options.trademark = "";
+      //删除属性 自动更新
+      // this.$delete(this.options,'trademark')
+      // Vue.delete(this.options,'trademark')
       this.getProdoctList();
     },
     getProdoctList() {
