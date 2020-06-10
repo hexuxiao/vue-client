@@ -19,19 +19,30 @@
               {{options.keyword}}
               <i @click="removeKeyword">×</i>
             </li>
+            <li class="with-x" v-if="options.trademark">
+              {{options.trademark}}
+              <i @click="removeTrademark">×</i>
+            </li>
+            <li class="with-x" v-for="(prop,index) in options.props" :key="prop">
+              {{prop}}
+              <i @click="removeProp(index)">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :setTrademark="setTrademark" @addProp="addProp" />
 
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{active:isActive('1')}" @click="setOrder('1')">
+                  <a href="javascript:;">
+                    综合
+                    <i class="iconfont" v-if="isActive('1')" :class="iconClass"></i>
+                  </a>
                 </li>
                 <li>
                   <a href="#">销量</a>
@@ -42,12 +53,15 @@
                 <li>
                   <a href="#">评价</a>
                 </li>
-                <li>
-                  <a href="#">价格⬆</a>
+                <li :class="{active:isActive('2')}" @click="setOrder('2')">
+                  <a href="javascript:;">
+                    价格
+                    <i class="iconfont" v-if="isActive('2')" :class="iconClass"></i>
+                  </a>
                 </li>
-                <li>
+                <!-- <li>
                   <a href="#">价格⬇</a>
-                </li>
+                </li>-->
               </ul>
             </div>
           </div>
@@ -164,10 +178,59 @@ export default {
   computed: {
     ...mapState({
       prodoctList: state => state.search.prodoctList
-    })
+    }),
+    iconClass() {
+      return this.options.order.split(":")[1] === "desc"
+        ? "icon-xiangxia"
+        : "icon-xiangshang";
+    }
   },
 
   methods: {
+    //切换排序项和排序方式
+    setOrder(flag) {
+      let [orderFlag, orderType] = this.options.order.split(":");
+      if (flag === orderFlag) {
+        orderType = orderType === "asc" ? "desc" : "asc";
+      } else {
+        orderFlag = flag;
+        orderType = "desc";
+      }
+      //设置更新order数据
+      this.options.order = orderFlag + ":" + orderType;
+      //获取数据
+      this.getProdoctList();
+
+    },
+    //判断排序类型是否选中
+    isActive(orderFlag) {
+      return this.options.order.indexOf(orderFlag) === 0;
+    },
+    //设置新的属性数据
+    addProp(prop) {
+      //如果属性已经存在 直接结束
+      if (this.options.props.indexOf(prop) >= 0) return;
+      this.options.props.push(prop);
+      this.getProdoctList();
+    },
+    //删除对应的属性条件
+    removeProp(index) {
+      this.options.props.splice(index, 1);
+      this.getProdoctList();
+    },
+    //设置新的品牌数据
+    setTrademark(trademark) {
+      if (this.options.trademark === trademark) return;
+      //更新数据
+      this.options.trademark = trademark;
+      //请求数据
+      this.getProdoctList();
+    },
+    //删除品牌条件
+    removeTrademark() {
+      this.options.trademark = "";
+      this.getProdoctList();
+    },
     getProdoctList() {
       this.$store.dispatch("getProdoctList", this.options);
     },
