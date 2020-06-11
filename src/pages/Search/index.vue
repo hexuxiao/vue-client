@@ -101,39 +101,13 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted">
-                  <span>...</span>
-                </li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div>
-                <span>共10页&nbsp;</span>
-              </div>
-            </div>
-          </div>
+          <Pagination
+            :currentPage="options.pageNo"
+            :pageSize="options.pageSize"
+            :total="prodoctList.total"
+            :showPageNo="5"
+            @currentChange="getProdoctList"
+          ></Pagination>
         </div>
       </div>
     </div>
@@ -141,7 +115,7 @@
 </template>
 
 <script>
-import  Vue from 'vue'
+import Vue from "vue";
 import { mapState } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
@@ -201,7 +175,6 @@ export default {
       this.options.order = orderFlag + ":" + orderType;
       //获取数据
       this.getProdoctList();
-
     },
     //判断排序类型是否选中
     isActive(orderFlag) {
@@ -224,7 +197,7 @@ export default {
       if (this.options.trademark === trademark) return;
       //更新数据
       this.options.trademark = trademark;
-      //添加新属性 自动更新界面   
+      //添加新属性 自动更新界面
       // Vue.set(this.options,'trademark',trademark)
       // this.$set(this.options,'trademark',trademark)
 
@@ -239,7 +212,10 @@ export default {
       // Vue.delete(this.options,'trademark')
       this.getProdoctList();
     },
-    getProdoctList() {
+    getProdoctList(pageNo = 1) {
+      //更新页码数据
+      this.options.pageNo = pageNo;
+      //请求数据
       this.$store.dispatch("getProdoctList", this.options);
     },
     //根据query，params更新options
