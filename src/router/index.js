@@ -27,5 +27,12 @@ VueRouter.prototype.replace = function (location, onComplete, onAbort) {
 Vue.use(VueRouter)
 export default new VueRouter({
     mode: 'history',
-    routes
+    routes,
+    //跳转后滚动条的位置
+    scrollBehavior() {
+        return {
+            x: 0,
+            y: 0
+        }
+    }
 })

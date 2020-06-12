@@ -31,3 +31,5 @@ export const reqTodayRecommend = ()=>mockAjax('/todayRecommend')
 
 //定义访问searchlist接口的函数
 export const reqProductList = (options)=>ajax.post('/list',options)
+//定义访问detail接口的函数
+export const reqDetail = (skuId) =>ajax(`/item/${skuId}`)
