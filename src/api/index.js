@@ -26,10 +26,20 @@ export const reqCategorysList = () => ajax('/product/getBaseCategoryList')
 //定义访问mock接口的函数
 export const reqBanners = () => mockAjax('/banners')
 export const reqFloors = () => mockAjax('/floors')
-export const reqTodayRecommend = ()=>mockAjax('/todayRecommend')
+export const reqTodayRecommend = () => mockAjax('/todayRecommend')
 
 
 //定义访问searchlist接口的函数
-export const reqProductList = (options)=>ajax.post('/list',options)
+export const reqProductList = (options) => ajax.post('/list', options)
 //定义访问detail接口的函数
-export const reqDetail = (skuId) =>ajax(`/item/${skuId}`)
+export const reqDetail = (skuId) => ajax(`/item/${skuId}`)
+
+
+//定义访问获取购物车列表接口的函数
+export const reqShopCart = () => ajax.get('/cart/cartList')
+//定义访问添加到购物车的接口的函数
+export const reqAddToCart = (skuId, skuNum) => ajax.post(`/cart/addToCart/${skuId}/${skuNum}`)
+//定义访问切换某个购物车选中状态的接口的函数
+export const reqCheakCartItem = (skuId, isChecked) => ajax.get(`/cart/checkCart/${skuId}/${isChecked}`)
+//定义方位删除购物项的接口的函数
+export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuId}`)

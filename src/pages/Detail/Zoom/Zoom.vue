@@ -1,7 +1,7 @@
 <template>
   <div class="spec-preview">
     <img :src="imgUrl" />
-    <div class="event" @mousemove="move"></div>
+    <div class="event" @mousemove="move" ref="event"></div>
     <div class="mask" ref="mask"></div>
     <div class="big">
       <img :src="bigUrl" ref="bigImg" />
@@ -10,14 +10,21 @@
 </template>
 
 <script>
+import throttle from "lodash/throttle";
 export default {
   name: "Zoom",
   props: {
     imgUrl: String,
     bigUrl: String
   },
+  mounted() {
+    //这样不行 一开始display隐藏了
+    // this.maskWidth = this.$refs.mask.clientWidth
+    this.maskWidth = this.$refs.event.clientWidth / 2;
+  },
   methods: {
-    move(event) {
+    //函数节流处理
+    move: throttle(function(event) {
       //计算left top
       let left, top;
 
@@ -25,7 +32,8 @@ export default {
       const bigImg = this.$refs.bigImg;
 
       const { offsetX, offsetY } = event;
-      const maskWidth = maskDiv.clientWidth;
+      // const maskWidth = maskDiv.clientWidth;
+      const maskWidth = this.maskWidth;
 
       left = offsetX - maskWidth / 2;
       top = offsetY - maskWidth / 2;
@@ -48,7 +56,7 @@ export default {
       //指定大图的left top
       bigImg.style.left = -2 * left + "px";
       bigImg.style.top = -2 * top + "px";
-    }
+    }, 50)
   }
 };
 </script>

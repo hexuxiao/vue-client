@@ -86,12 +86,16 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model="skuNum" />
+                <a href="javascript:" class="plus" @click="skuNum = skuNum*1 + 1">+</a>
+                <a
+                  href="javascript:"
+                  class="mins"
+                  @click="skuNum = skuNum > 1 ? skuNum - 1 : skuNum"
+                >-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addToCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -338,7 +342,8 @@ export default {
   name: "Detail",
   data() {
     return {
-      currentIndex: 0
+      currentIndex: 0,
+      skuNum: 1
     };
   },
   computed: {
@@ -351,16 +356,63 @@ export default {
     this.$store.dispatch("getdetailInfo", this.$route.params.id);
   },
   methods: {
+    //商品添加到购物车
+    async addToCart() {
+      const skuNum = this.skuNum;
+      const skuId = this.$route.params.id;
+      //方式一：回调函数
+      // this.$store.dispatch("addToCart", {
+      //   skuId,
+      //   skuNum,
+      //   callback: this.callback
+      // });
+      // this.$store.dispatch("addToCart", {
+      //   skuId:undefined,
+      //   skuNum:undefined,
+      //   callback: this.callback
+      // });
+
+      //方式二：dispatch的返回值是promise函数
+      // const promise = this.$store.dispatch('addToCart2',{skuId,skuNum})
+      // promise.then(()=>{
+      //   this.$router.push("/addcartsuccess");
+      // }).catch(error=>{
+      //   alert(error.message)
+      // })
+
+      //方式三：dispatch返回的是成功的promise
+      const errorMsg = await this.$store.dispatch("addToCart3", {
+        skuId,
+        skuNum
+      });
+      if (errorMsg) {
+        alert(errorMsg);
+      } else {
+        window.sessionStorage.setItem('SKU_INFO_KEY',JSON.stringify(this.skuInfo))
+        this.$router.push({path:"/addcartsuccess",query:{skuNum}});
+      }
+    },
+    // callback(errorMsg) {
+    //   if (errorMsg) {
+    //     alert(errorMsg);
+    //   } else {
+    //     //跳转到购物车列表
+    //     this.$router.push("/addcartsuccess");
+    //   }
+    // },
     //改变当前图片的下标
     // handleCurrentChange(index) {
     //   this.currentIndex = index;
     // },
     ///选中指定的销售属性值
     cheakValue(value, valueList) {
+      //如果已经选中需要点击的 直接结束
       if (value.isChecked === "1") return;
+      //遍历已经选中的isCheakd改为0及取消
       valueList.forEach(value => {
         value.isChecked = "0";
       });
+      //点击的isCheaked的值为1即选中
       value.isChecked = "1";
     }
   },
