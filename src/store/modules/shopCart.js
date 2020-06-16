@@ -63,7 +63,7 @@ const actions = {
             return undefined
         }
     },
-    //切换选中状态
+    //切换某个选中状态
     async cheakCartItem({
         commit
     }, {
@@ -75,7 +75,7 @@ const actions = {
             throw new Error(result.message || '选中失败')
         }
     },
-    //是否全选
+    //切换全选状态
     async checkAllCartItems({
         commit,
         dispatch

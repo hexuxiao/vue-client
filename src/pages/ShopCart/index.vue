@@ -108,7 +108,7 @@ export default {
     this.$store.dispatch("getCartList");
   },
   methods: {
-    //通过change分发action，改变选中状态
+    //通过change分发action，改变某个选中状态
     async cheakCartItem(item) {
       const skuId = item.skuId;
       const isChecked = item.isChecked === 1 ? "0" : "1";
