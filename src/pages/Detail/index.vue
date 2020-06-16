@@ -392,6 +392,9 @@ export default {
         this.$router.push({path:"/addcartsuccess",query:{skuNum}});
       }
     },
+
+
+    
     // callback(errorMsg) {
     //   if (errorMsg) {
     //     alert(errorMsg);

@@ -1,6 +1,7 @@
 import {
     reqShopCart,
-    reqAddToCart
+    reqAddToCart,
+    reqCheakCartItem
 } from '@/api'
 const state = {
     cartList: []
@@ -58,12 +59,56 @@ const actions = {
         const result = await reqAddToCart(skuId, skuNum)
         if (result.code !== 200) {
             return '添加购物车失败'
-        }else{
+        } else {
             return undefined
         }
+    },
+    //切换选中状态
+    async cheakCartItem({
+        commit
+    }, {
+        skuId,
+        isChecked
+    }) {
+        const result = await reqCheakCartItem(skuId, isChecked)
+        if (result.code !== 200) {
+            throw new Error(result.message || '选中失败')
+        }
+    },
+    //是否全选
+    async checkAllCartItems({
+        commit,
+        dispatch
+    }, cheaked) {
+        //cheaked是布尔值
+        const isChecked = cheaked ? '1' : '0'
+        let promises = []
+        state.cartList.forEach(item=>{
+            //改变可选状态与全选状态不一致的
+            if(item.isChecked !== isChecked){
+                //得到返回的promise对象
+                const promise = dispatch('cheakCartItem',{skuId:item.skuId, isChecked})
+                promises.push(promise)
+            }
+        })
+        //只有全部的promise成功（cheakCartItem的isChecked状态和全选状态一致）才能成功
+        return Promise.all(promises)
     }
 }
-const getters = {}
+const getters = {
+    //选中的总数量
+    totalCount() {
+        return state.cartList.reduce((pre, item) => pre + (item.isChecked === 1 ? item.skuNum : 0), 0)
+    },
+    //选中的总价格
+    totalPrice() {
+        return state.cartList.reduce((pre, item) => pre + (item.isChecked === 1 ? item.skuNum * item.cartPrice : 0), 0)
+    },
+    //是否选中
+    isCheckAll() {
+        return state.cartList.length > 0 && state.cartList.every(item => item.isChecked === 1)
+    }
+}
 export default {
     state,
     mutations,
