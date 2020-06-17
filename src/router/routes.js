@@ -11,6 +11,7 @@ import PaySuccess from '../pages/PaySuccess'
 import Center from '../pages/Center'
 import MyOrder from '../pages/Center/MyOrder'
 import CroupBuy from '../pages/Center/CroupBuy'
+import store from '../store'
 export default [{
         path: '/',
         component: Home
@@ -36,7 +37,17 @@ export default [{
         component: Login,
         meta: {
             isHideFooter: true
-        }
+        },
+        //已经登录就没法在跳转到登录界面，强制跳转到主页
+        //路由独享的守卫
+        // beforeEnter: (to, from, next) => {
+        //     const token  = store.state.user.userInfo.token
+        //     if(token){
+        //         next('/')
+        //     }else{
+        //         next()
+        //     }
+        // }
     },
     {
         path: '/detail/:id',
@@ -51,32 +62,31 @@ export default [{
         component: ShopCart
     },
     {
-        path:'/trade',
-        component:Trade
+        path: '/trade',
+        component: Trade
     },
     {
-        path:'/pay',
-        component:Pay
+        path: '/pay',
+        component: Pay
     },
     {
-        path:'/paysuccess',
-        component:PaySuccess
+        path: '/paysuccess',
+        component: PaySuccess
     },
     {
-        path:'/center',
-        component:Center,
-        children:[
-            {
-                path:'/center/myorder',
-                component:MyOrder
+        path: '/center',
+        component: Center,
+        children: [{
+                path: '/center/myorder',
+                component: MyOrder
             },
             {
-                path:'croupbuy',
-                component:CroupBuy
+                path: 'croupbuy',
+                component: CroupBuy
             },
             {
-                path:'',
-                redirect:'/center/myorder'
+                path: '',
+                redirect: '/center/myorder'
             }
         ]
     }

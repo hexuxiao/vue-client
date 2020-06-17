@@ -109,6 +109,20 @@ export default {
         alert(error.message);
       }
     }
+  },
+  ////已经登录就没法在跳转到登录界面，强制跳转到主页
+  //组件内的守卫
+  beforeRouteEnter(to, from, next) {
+    //此时组件还没有创建
+    next(vm => {
+      // 通过 `vm` 访问组件实例
+      const token = vm.$store.state.user.userInfo.token;
+      if (token) {
+        next("/");
+      } else {
+        next();
+      }
+    });
   }
 };
 </script>

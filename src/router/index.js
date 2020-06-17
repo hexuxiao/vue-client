@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
+import store from '../store'
 // 缓存原型上的push函数
 const originPush = VueRouter.prototype.push
 const originReplace = VueRouter.prototype.replace
@@ -25,7 +26,9 @@ VueRouter.prototype.replace = function (location, onComplete, onAbort) {
 }
 
 Vue.use(VueRouter)
-export default new VueRouter({
+
+
+const router = new VueRouter({
     mode: 'history',
     routes,
     //跳转后滚动条的位置
@@ -34,5 +37,27 @@ export default new VueRouter({
             x: 0,
             y: 0
         }
+    },
+})
+//全局路由守卫
+router.beforeEach((to, from, next) => {
+    const checkPaths = ['/trade', '/pay', '/center']
+    //目标路径
+    const targetPath = to.path
+    //目标路径是否在跳转路径中
+    const flag = !!checkPaths.find(item => targetPath.indexOf(item) === 0)
+    //判断路径是否需检查
+    if (flag) {
+        //需要检查 判断是否登录 登录之后才可以跳转
+        const token = store.state.user.userInfo.token
+        if (token) {
+            next()
+        } else {
+            //没有登录 直接强制跳转到登录页面
+            next('/login')
+        }
+    } else {
+        next()
     }
 })
+export default router
