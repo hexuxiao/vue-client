@@ -55,23 +55,58 @@ export default [{
     },
     {
         path: '/addcartsuccess',
-        component: AddCardSuccess
+        component: AddCardSuccess,
+        //只有携带了skuNum和sessionStorange中的skuInfo数据，才能查看添加购物车成功的界面
+        beforeEnter: (to, from, next) => {
+            const skuNum = to.query.skuNum
+            const sukInfo = JSON.parse(window.sessionStorage.getItem("SKU_INFO_KEY"));
+            if (skuNum && sukInfo instanceof Object) {
+                next()
+            } else {
+                next('/shopcart')
+            }
+        }
     },
     {
         path: '/shopcart',
-        component: ShopCart
+        component: ShopCart,
     },
     {
         path: '/trade',
-        component: Trade
+        component: Trade,
+        //只能从购物车跳转到交易页面
+        beforeEnter: (to, from, next) => {
+            if (from.path === '/shopcart') {
+                next()
+            } else {
+                ///否则强制跳转到购物车页面
+                next('/shopcart')
+            }
+        }
     },
     {
         path: '/pay',
-        component: Pay
+        component: Pay,
+        //只能从交易页面跳转到支付页面
+        beforeEnter: (to, from, next) => {
+            if (from.path === '/trade') {
+                next()
+            } else {
+                next('/trade')
+            }
+        }
     },
     {
         path: '/paysuccess',
-        component: PaySuccess
+        component: PaySuccess,
+        //只能从支付页面跳转到支付成功页面
+        beforeEnter: (to, from, next) => {
+            if (from.path === '/pay') {
+                next()
+            } else {
+                next('/pay')
+            }
+        }
     },
     {
         path: '/center',
@@ -85,6 +120,7 @@ export default [{
                 component: CroupBuy
             },
             {
+                //自动跳转的路由
                 path: '',
                 redirect: '/center/myorder'
             }

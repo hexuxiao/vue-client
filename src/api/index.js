@@ -48,3 +48,5 @@ export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuI
 export const reqRegister = (userInfo) => ajax.post('/user/passport/register/', userInfo)
 //定义访问退出登录接口函数
 export const reqLogout = () => ajax.get('/user/passport/logout')
+//定义访问获取订单列表的接口函数
+export const reqOrders = (page, limit) => ajax.get(`/order/auth/${page}/${limit}`)

@@ -40,6 +40,7 @@ const router = new VueRouter({
     },
 })
 //全局路由守卫
+//只有登录了，才可以跳转到结算，支付，订单页面
 router.beforeEach((to, from, next) => {
     const checkPaths = ['/trade', '/pay', '/center']
     //目标路径

@@ -8,6 +8,8 @@ import TypeNav from './components/TypeNav'
 import Carousel from './components/carousel'
 import Pagination from './components/Pagination'
 import './validate' // 引入表单校验的配置模块
+//引入所有api模块中暴露的函数，封装到API对象中
+import * as API from './api'
 
 
 
@@ -18,6 +20,9 @@ Vue.config.productionTip = false
 Vue.component('TypeNav', TypeNav)
 Vue.component('Carousel', Carousel)
 Vue.component('Pagination', Pagination)
+
+//将API对象保存到vue原型对象上,用于所有的组件对象都可以直接引用
+Vue.prototype.$API = API
 
 new Vue({
   render: h => h(App),
