@@ -33,7 +33,7 @@ export default {
         }, userInfo) {
             const result = await reqRegister(userInfo)
             if (result.code !== 200) {
-                throw new Error(result.message || '注册失败')
+                throw new Error(result.data || '注册失败')
             }
         },
         //请求登录成功后，保存返回的用户信息

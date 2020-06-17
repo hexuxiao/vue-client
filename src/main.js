@@ -7,15 +7,17 @@ import store from './store'
 import TypeNav from './components/TypeNav'
 import Carousel from './components/carousel'
 import Pagination from './components/Pagination'
- 
+import './validate' // 引入表单校验的配置模块
+
+
 
 import './mock/mockServe'
 
 Vue.config.productionTip = false
 //注册全局组件
 Vue.component('TypeNav', TypeNav)
-Vue.component('Carousel',Carousel)
-Vue.component('Pagination',Pagination)
+Vue.component('Carousel', Carousel)
+Vue.component('Pagination', Pagination)
 
 new Vue({
   render: h => h(App),

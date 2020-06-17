@@ -17,14 +17,28 @@
             <form action="##">
               <div class="input-text clearFix">
                 <i></i>
-                <input type="text" placeholder="手机号" v-model="mobile" />
-                <!-- <span class="error-msg">错误提示信息</span> -->
+                <input
+                  type="text"
+                  placeholder="手机号"
+                  v-model="mobile"
+                  name="手机号"
+                  v-validate="{required:true,regex:/^1\d{10}$/}"
+                  :class="{invalid:errors.has('手机号')}"
+                />
+                <span class="error-msg">{{errors.first('手机号')}}</span>
               </div>
 
               <div class="input-text clearFix">
                 <i class="pwd"></i>
-                <input type="password" placeholder="请输入密码" v-model="password" />
-                <!-- <span class="error-msg">错误提示信息</span> -->
+                <input
+                  type="password"
+                  placeholder="请输入密码"
+                  v-model="password"
+                  name="密码"
+                  v-validate="{required:true,min:6,max:10}"
+                  :class="{invalid:errors.has('密码')}"
+                />
+                <span class="error-msg">{{errors.first('密码')}}</span>
               </div>
 
               <div class="setting clearFix">
@@ -157,6 +171,9 @@ export default {
           .input-text {
             margin-bottom: 22px;
             position: relative;
+            .invalid {
+              border: 1px solid red;
+            }
             i {
               float: left;
               width: 37px;

@@ -45,6 +45,6 @@ export const reqCheakCartItem = (skuId, isChecked) => ajax.get(`/cart/checkCart/
 export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuId}`)
 
 //定义访问注册接口函数
-export const reqRegister = (userInfo) => ajax.post(`/user/passport/register/${userInfo}`)
+export const reqRegister = (userInfo) => ajax.post('/user/passport/register/', userInfo)
 //定义访问退出登录接口函数
 export const reqLogout = () => ajax.get('/user/passport/logout')
