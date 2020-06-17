@@ -41,5 +41,10 @@ export const reqShopCart = () => ajax.get('/cart/cartList')
 export const reqAddToCart = (skuId, skuNum) => ajax.post(`/cart/addToCart/${skuId}/${skuNum}`)
 //定义访问切换某个购物车选中状态的接口的函数
 export const reqCheakCartItem = (skuId, isChecked) => ajax.get(`/cart/checkCart/${skuId}/${isChecked}`)
-//定义方位删除购物项的接口的函数
+//定义访问删除购物项的接口的函数
 export const reqDeleteCartItem = (skuId) => ajax.delete(`/cart/deleteCart/${skuId}`)
+
+//定义访问注册接口函数
+export const reqRegister = (userInfo) => ajax.post(`/user/passport/register/${userInfo}`)
+//定义访问退出登录接口函数
+export const reqLogout = () => ajax.get('/user/passport/logout')

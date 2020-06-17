@@ -1,5 +1,5 @@
 module.exports = {
-    // lintOnSave: false
+    // lintOnSave: false,
     lintOnSave: 'warning',
     //代理服务器
     devServer: {

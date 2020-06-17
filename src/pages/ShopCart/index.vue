@@ -28,22 +28,22 @@
             <span class="price">{{item.skuPrise}}</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
+            <a href="javascript:void(0)" class="mins" @click="changeItemCount(item,-1)">-</a>
             <input
               autocomplete="off"
               type="text"
-              value="1"
               minnum="1"
               class="itxt"
-              v-model="item.skuNum"
+              :value="item.skuNum"
+              @change="changeItemCount(item,$event.target.value - item.skuNum,$event)"
             />
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a href="javascript:void(0)" class="plus" @click="changeItemCount(item,1)">+</a>
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{item.cartPrice*item.skuNum}}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a href="javascript:;" class="sindelet" @click="deleteItem(item)">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -56,7 +56,7 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a href="javascript:;" @click="deleteCheckedItems">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -118,6 +118,49 @@ export default {
         this.$store.dispatch("getCartList");
       } catch (error) {
         //如果失败了，提示
+        alert(error.message);
+      }
+    },
+    //修改商品数量
+    async changeItemCount(item, numChange, event) {
+      //最终数量
+      const num = item.skuNum + numChange;
+      if (num > 0) {
+        const skuId = item.skuId;
+        const skuNum = numChange;
+        try {
+          await this.$store.dispatch("addToCart2", { skuId, skuNum });
+          //如果成功，重新获取购物车数据显示
+          this.$store.dispatch("getCartList");
+        } catch (error) {
+          //如果失败了，提示
+          alert(error.message);
+        }
+      } else {
+        //手动修改小于0或者等于0或者不是数字的，返回之前的数量
+        if (event) {
+          event.target.value = item.skuNum;
+        }
+      }
+    },
+    //删除某个
+    async deleteItem(item) {
+      try {
+        alert("确定删除么？");
+        const skuId = item.skuId;
+        await this.$store.dispatch("deleteItem", skuId);
+        this.$store.dispatch("getCartList");
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    //删除选中
+    async deleteCheckedItems() {
+      try {
+        alert("确定删除么？");
+        await this.$store.dispatch("deleteCheckedItems");
+        this.$store.dispatch("getCartList");
+      } catch (error) {
         alert(error.message);
       }
     }

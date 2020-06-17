@@ -1,7 +1,8 @@
 import {
     reqShopCart,
     reqAddToCart,
-    reqCheakCartItem
+    reqCheakCartItem,
+    reqDeleteCartItem
 } from '@/api'
 const state = {
     cartList: []
@@ -83,15 +84,40 @@ const actions = {
         //cheaked是布尔值
         const isChecked = cheaked ? '1' : '0'
         let promises = []
-        state.cartList.forEach(item=>{
+        state.cartList.forEach(item => {
             //改变可选状态与全选状态不一致的
-            if(item.isChecked !== isChecked){
+            if (item.isChecked !== isChecked) {
                 //得到返回的promise对象
-                const promise = dispatch('cheakCartItem',{skuId:item.skuId, isChecked})
+                const promise = dispatch('cheakCartItem', {
+                    skuId: item.skuId,
+                    isChecked
+                })
                 promises.push(promise)
             }
         })
         //只有全部的promise成功（cheakCartItem的isChecked状态和全选状态一致）才能成功
+        return Promise.all(promises)
+    },
+    //删除某个选项
+    async deleteItem({
+        commit
+    }, skuId) {
+        const result = await reqDeleteCartItem(skuId)
+        if (result.code !== 200) {
+            throw new Error(result.message || '删除失败')
+        }
+    },
+    //删除选中
+    async deleteCheckedItems({
+        commit,
+        dispatch
+    }) {
+        const promises = await state.cartList.reduce((pre, item) => {
+            if (item.isChecked == 1) {
+                pre.push(dispatch('deleteItem', item.skuId))
+            }
+            return pre
+        }, [])
         return Promise.all(promises)
     }
 }
