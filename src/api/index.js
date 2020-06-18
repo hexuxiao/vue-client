@@ -50,3 +50,24 @@ export const reqRegister = (userInfo) => ajax.post('/user/passport/register/', u
 export const reqLogout = () => ajax.get('/user/passport/logout')
 //定义访问获取订单列表的接口函数
 export const reqOrders = (page, limit) => ajax.get(`/order/auth/${page}/${limit}`)
+
+//定义访问获取订单交易页信息的接口函数
+export const reqTradeInfo = ()=>ajax.get('/order/auth/trade')
+//定义访问提交订单的接口函数
+export const reqSubmitOrder = (tradeNo, orderInfo) => ajax({
+    url: 'order/auth/submitOrder',
+    method: 'post',
+    //传query参要通过params
+    // query: {
+    //     tradeNo
+    // },
+    params: {
+        tradeNo
+    },
+    data: orderInfo
+})
+
+//定义访问 获取 订单支付信息 的接口函数
+export const reqPayInfo = (orderId) => ajax.get(`/payment/weixin/createNative/${orderId}`)
+//定义访问 查询 支付订单状态 的接口函数
+export const reqPayStatus = (orderId) => ajax.get(`/payment/weixin/queryPayStatus/${orderId}`)

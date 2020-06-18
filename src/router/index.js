@@ -54,8 +54,8 @@ router.beforeEach((to, from, next) => {
         if (token) {
             next()
         } else {
-            //没有登录 直接强制跳转到登录页面
-            next('/login')
+            //没有登录 跳转到redirect query参数对应的目标路径，否则直接强制跳转到登录页面
+            next('/login?redirect=' + targetPath)
         }
     } else {
         next()

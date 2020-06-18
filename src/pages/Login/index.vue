@@ -104,13 +104,19 @@ export default {
       const { mobile, password } = this;
       try {
         await this.$store.dispatch("login", { mobile, password });
-        this.$router.replace("/");
+        //没有登录 跳转到 redirect query参数对应的目标路径，否则跳转到登录页面
+        const redirect = this.$route.query.redirect;
+        if (redirect) {
+          this.$router.replace(redirect);
+        } else {
+          this.$router.replace("/");
+        }
       } catch (error) {
         alert(error.message);
       }
     }
   },
-  ////已经登录就没法在跳转到登录界面，强制跳转到主页
+  //已经登录就没法在跳转到登录界面，强制跳转到主页
   //组件内的守卫
   beforeRouteEnter(to, from, next) {
     //此时组件还没有创建

@@ -17,7 +17,7 @@ instance.interceptors.request.use(config => {
     Nprogress.start()
     //5.每个请求自动携带userTempId的请求头: 在请求拦截器中实现
     config.headers['userTempId'] = store.state.user.userTempId
-    //登陆后每个请求自带token的请求头
+    //6.登陆后每个请求自带token的请求头:在请求拦截器中实现
     const token = store.state.user.userInfo.token
     if (token) {
         config.headers['token'] = token

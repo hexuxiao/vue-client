@@ -36,6 +36,7 @@
               class="itxt"
               :value="item.skuNum"
               @change="changeItemCount(item,$event.target.value - item.skuNum,$event)"
+              @input="validInput"
             />
             <a href="javascript:void(0)" class="plus" @click="changeItemCount(item,1)">+</a>
           </li>
@@ -70,7 +71,7 @@
           <i class="summoney">{{totalPrice}}</i>
         </div>
         <div class="sumbtn">
-          <router-link to="/trade" class="sum-btn" >结算</router-link>
+          <router-link to="/trade" class="sum-btn">结算</router-link>
         </div>
       </div>
     </div>
@@ -163,6 +164,12 @@ export default {
       } catch (error) {
         alert(error.message);
       }
+    },
+    //确保输入的数量是正整数
+    validInput() {
+      const input = event.target;
+      input.value = input.value.replace(/^0+|\D+0*/g, "");
+      console.log(input.value);
     }
   }
 };

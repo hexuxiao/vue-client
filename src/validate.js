@@ -4,7 +4,7 @@ import VeeValidate from 'vee-validate'
 import zh_CN from 'vee-validate/dist/locale/zh_CN' // 引入中文message
 
 Vue.use(VeeValidate)
-// 内部定义了一个v-validate的指令及$validator的对象他errors对象
+// 内部定义了一个v-validate的指令及$validator的对象以及errors对象
 
 // 提示文本信息本地化
 VeeValidate.Validator.localize('zh_CN', {
