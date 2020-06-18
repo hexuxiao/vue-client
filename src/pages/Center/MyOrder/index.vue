@@ -76,6 +76,17 @@
         :showPageNo="5"
         @currentChange="getOrders"
       ></Pagination>
+      <!-- <el-Pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        :current-page="page"
+        :page-size="limit"
+        :pager-count="5"
+        prev-text="上一页"
+        next-text="下一页"
+        @current-change='getOrders'
+      ></el-Pagination> -->
     </div>
   </div>
 </template>

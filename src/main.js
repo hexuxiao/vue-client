@@ -10,6 +10,7 @@ import Pagination from './components/Pagination'
 import './validate' // 引入表单校验的配置模块
 //引入所有api模块中暴露的函数，封装到API对象中
 import * as API from './api'
+import './element'
 
 
 
