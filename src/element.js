@@ -3,11 +3,13 @@ import Vue from 'vue'
 import {
     Pagination,
     MessageBox,
-    Message
+    Message,
+    Button
 } from 'element-ui'
 
 //注册全局组件
 Vue.component(Pagination.name, Pagination) //el-pagination,Vue.use(Pagination)
+Vue.component(Button.name, Button) 
 
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
