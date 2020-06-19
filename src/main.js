@@ -12,7 +12,8 @@ import './validate' // 引入表单校验的配置模块
 import * as API from './api'
 import './element'
 
-
+import VueLazyload from 'vue-lazyload'
+import loading from './assets/images/loading.gif'
 
 import './mock/mockServe'
 
@@ -24,6 +25,12 @@ Vue.component('Pagination', Pagination)
 
 //将API对象保存到vue原型对象上,用于所有的组件对象都可以直接引用
 Vue.prototype.$API = API
+
+//使用懒加载组件
+Vue.use(VueLazyload,{
+  loading//配置loading图片
+})
+
 
 new Vue({
   render: h => h(App),

@@ -6,9 +6,8 @@ import {
     Message
 } from 'element-ui'
 
-// 注册全局组件
-Vue.component(Pagination.name, Pagination) // el-pagination
-// 也可使用 Vue.use(Pagination)
+//注册全局组件
+Vue.component(Pagination.name, Pagination) //el-pagination,Vue.use(Pagination)
 
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
